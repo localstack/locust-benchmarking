@@ -1,0 +1,35 @@
+[project]
+name = "localstack-locust-benchmarks"
+authors = [
+    { name = "LocalStack Contributors", email = "info@localstack.cloud" }
+]
+version = "0.1.0"
+description = "Performance benchmarks for LocalStack"
+requires-python = ">=3.8"
+dependencies = [
+    "locust",
+    "boto3"
+]
+
+[tool.setuptools]
+py-modules = []
+
+[tool.pyright]
+reportTypedDictNotRequiredAccess = "warning"
+reportGeneralTypeIssues = "warning"
+reportUnusedCallResult = false
+reportAny = false
+reportOptionalMemberAccess  = false
+reportUnknownMemberType = false
+reportUnknownArgumentType = false
+reportUnknownVariableType = false
+
+[project.optional-dependencies]
+dev = [
+    "pandas",
+    "plotly"
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
