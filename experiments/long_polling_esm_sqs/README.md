@@ -14,7 +14,7 @@ DNS_ADDRESS=0 LS_LOG=WARNING SQS_DISABLE_CLOUDWATCH_METRICS=1 python -m localsta
 
 * Once resources are loaded in, run the Locust benchmark test with the following command:
 ```shell
-locust-benchmarking % locust --headless --users 100 --spawn-rate 2 -H http://127.0.0.1:4566 --run-time 300 --tags "sqs" --html $(date +%F_%H-%M-%S)-report.html -f locustfile_boto.py
+locust --headless --users 100 --spawn-rate 2 -H http://127.0.0.1:4566 --run-time 300 --tags "sqs" --html $(date +%F_%H-%M-%S)-report.html -f locustfile.py
 ```
 
 * Upon test completion, an HTML file will be created (i.e `2025-02-12_16-59-49-report.html`) with generated tables and figures showing LocalStack's test performance.
