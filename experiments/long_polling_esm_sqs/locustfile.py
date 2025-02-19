@@ -56,7 +56,6 @@ class LocalStackUser(BotoUser):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.id = next(next_id)
-        # self.message_body = json.dumps({"foo": "bar"})
         
         resp = self.client.sqs_client.list_queues()
         self.queue_urls = resp.get("QueueUrls", [])

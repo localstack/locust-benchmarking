@@ -2,9 +2,14 @@
 
 ## Quickstart
 
-* Start LocalStack with your performance improvements. The below was used:
+* Start LocalStack inside a Docker container with your performance improvements. The below was used:
 ```shell
-DNS_ADDRESS=0 LS_LOG=WARNING SQS_DISABLE_CLOUDWATCH_METRICS=1 python -m localstack.runtime.main
+python -m localstack.dev.run -e DNS_ADDRESS=0 -e LS_LOG=WARNING -e SQS_DISABLE_CLOUDWATCH_METRICS=1 -e LAMBDA_RUNTIME_ENVIRONMENT_TIMEOUT=80
+```
+
+* Ensure you're in the `experiments/long_polling_esm_sqs` directory:
+```shell
+cd experiments/long_polling_esm_sqs
 ```
 
 * Run the `create_resources.sh` which will create `NUM_RESOURCES` (default `100`) Lambda functions, SQS queues, and Event Source Mappings, connecting each Lambda to an SQS queue.
@@ -22,7 +27,7 @@ locust --headless --users 100 --spawn-rate 2 -H http://127.0.0.1:4566 --run-time
 ## Experiment Details
 
 ### Comparisons
-* Baseline: HEAD of `master` at [`bfb17b72`](https://github.com/localstack/localstack/commit/bfb17b723cf9cb0c8c4ca2ef6e232d28518581d0)
+* Baseline: HEAD of `master` at [`7f32b7df3`](https://github.com/localstack/localstack/commit/7f32b7df3)
 * Feature Branch: https://github.com/localstack/localstack/pull/12002
 
 ### Measurement
@@ -53,11 +58,9 @@ Docker Desktop Allocated Resources:
 * SQS CloudWatch Metrics: `DISABLED`
 * Log Level: `WARNING`
 * DNS Address: `DISABLED`
+* LAMBDA_RUNTIME_ENVIRONMENT_TIMEOUT[^1]: `80`
 
-
-```shell
-LS_LOG=WARNING SQS_DISABLE_CLOUDWATCH_METRICS=1 python -m localstack.runtime.main
-```
+[^1]: Under high volumes, we noticed Lambdas timing out on start-up. While `80` is quite defensive, failures in performance tests are unideal and expensive (skewing results).
 
 #### SQS queues
 * Count: `100`
@@ -74,7 +77,7 @@ LS_LOG=WARNING SQS_DISABLE_CLOUDWATCH_METRICS=1 python -m localstack.runtime.mai
 
 ## Results
 
-| Long Polling | N | Avg Requests | Avg RPS | P(50)        | P(95)        | P(99)          |
-|--------------|---|--------------|---------|--------------|--------------|----------------|
-| No           | 3 |    84,678.67 |  282.26 | 160 - 170 ms | 560 - 860 ms | 1000 - 1500 ms |
-| Yes          | 2 |   172,902.50 |  576.34 | 120 - 130 ms | 380 - 510 ms | 540 - 810 ms   |
+| Long Polling | # Requests | P(50)   | P(95)   | P(99)    |
+|--------------|------------|---------|---------|----------|
+| Yes          |   64535    |  370 ms | 740 ms  | 1000 ms  |
+| No           |   68355    |  340 ms | 730 ms  | 930 ms   |
