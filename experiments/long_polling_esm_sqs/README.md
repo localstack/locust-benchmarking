@@ -27,7 +27,7 @@ locust --headless --users 100 --spawn-rate 2 -H http://127.0.0.1:4566 --run-time
 ## Experiment Details
 
 ### Comparisons
-* Baseline: HEAD of `master` at [`7f32b7df3`](https://github.com/localstack/localstack/commit/7f32b7df3)
+* Baseline: HEAD of `master` at [`95782dcfa`](https://github.com/localstack/localstack/commit/95782dcfa)
 * Feature Branch: https://github.com/localstack/localstack/pull/12002
 
 ### Measurement
@@ -77,7 +77,33 @@ Docker Desktop Allocated Resources:
 
 ## Results
 
+#### Experiment 1: Batch Size=1000, Batch Window=20s
+
+* Batch Size: `1000`
+* Batch Window: `20s`
+
 | Long Polling | # Requests | P(50)   | P(95)   | P(99)    |
 |--------------|------------|---------|---------|----------|
 | Yes          |   64535    |  370 ms | 740 ms  | 1000 ms  |
 | No           |   68355    |  340 ms | 730 ms  | 930 ms   |
+
+
+#### Experiment 2: Batch Size=10000, Batch Window=300s
+
+* Batch Size: `10000`
+* Batch Window: `300s`
+
+| Long Polling | # Requests | P(50)   | P(95)   | P(99)    |
+|--------------|------------|---------|---------|----------|
+| Yes          |   107023   |  230 ms | 510 ms  | 660 ms   |
+| No           |   68355    |  220 ms | 780 ms  | 950 ms   |
+
+#### Experiment 3: Batch Size=10, Batch Window=300s
+
+* Batch Size: `10`
+* Batch Window: `300s`
+
+| Long Polling | # Requests | P(50)   | P(95)   | P(99)    |
+|--------------|------------|---------|---------|----------|
+| Yes          |   107023   |  230 ms | 510 ms  | 660 ms  |
+| No           |   68355    |  220 ms | 780 ms  | 950 ms   |
