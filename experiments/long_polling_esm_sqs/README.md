@@ -72,8 +72,8 @@ Docker Desktop Allocated Resources:
         
 #### Event source mappings
 * Count: `100`
-* Batch Size: `1000`
-* Batch Window: `20s`
+* Batch Size: [`1000` (default), `10000`, `10`]
+* Batch Window: [`20s` (default), `300s`, `300s`]
 
 ## Results
 
@@ -82,10 +82,10 @@ Docker Desktop Allocated Resources:
 * Batch Size: `1000`
 * Batch Window: `20s`
 
-| Long Polling | # Requests | P(50)   | P(95)   | P(99)    |
-|--------------|------------|---------|---------|----------|
-| Yes          |   64535    |  370 ms | 740 ms  | 1000 ms  |
-| No           |   68355    |  340 ms | 730 ms  | 930 ms   |
+| Long Polling | # Requests | P(50)   | P(95)   | P(99)    | P(100)   |
+|--------------|------------|---------|---------|----------|----------|
+| Yes          |   64535    |  370 ms | 740 ms  | 1000 ms  | 3400 ms  |
+| No           |   68355    |  340 ms | 730 ms  | 930 ms   | 3600 ms  |
 
 
 #### Experiment 2: Batch Size=10000, Batch Window=300s
@@ -93,17 +93,17 @@ Docker Desktop Allocated Resources:
 * Batch Size: `10000`
 * Batch Window: `300s`
 
-| Long Polling | # Requests | P(50)   | P(95)   | P(99)    |
-|--------------|------------|---------|---------|----------|
-| Yes          |   107023   |  230 ms | 510 ms  | 660 ms   |
-| No           |   68355    |  220 ms | 780 ms  | 950 ms   |
+| Long Polling | # Requests | P(50)   | P(95)   | P(99)    | P(100)   |
+|--------------|------------|---------|---------|----------|----------|
+| Yes          |   107023   |  230 ms | 510 ms  | 660 ms   | 2200 ms  |
+| No           |   102795   |  220 ms | 780 ms  | 950 ms   | 2400 ms  |
 
 #### Experiment 3: Batch Size=10, Batch Window=300s
 
 * Batch Size: `10`
 * Batch Window: `300s`
 
-| Long Polling | # Requests | P(50)   | P(95)   | P(99)    |
-|--------------|------------|---------|---------|----------|
-| Yes          |   107023   |  230 ms | 510 ms  | 660 ms  |
-| No           |   68355    |  220 ms | 780 ms  | 950 ms   |
+| Long Polling | # Requests | P(50)   | P(95)   | P(99)    | P(100)    |
+|--------------|------------|---------|---------|----------|-----------|
+| Yes          |   92665    |  240 ms | 610 ms  | 780 ms   | 2800 ms   |
+| No           |   99638    |  240 ms | 560 ms  | 720 ms   | 3300 ms   |
